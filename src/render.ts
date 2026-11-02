@@ -123,11 +123,26 @@ export class Stage {
     const cs = Math.cos(rot), sn = Math.sin(rot);
     c.beginPath(); p.forEach(([x, y], i) => { const X = cx + (x * cs - y * sn) * R, Y = cy + (x * sn + y * cs) * R; i ? c.lineTo(X, Y) : c.moveTo(X, Y); }); c.closePath();
   }
+  private sheetCache: { key: string; cv: HTMLCanvasElement } | null = null;
   private drawKoch(c: CanvasRenderingContext2D, cx: number, cy: number, R: number, rot: number, t: number, now: number) {
     const p = this.poly(this.rule, this.depth, t);
-    // fit: classic outward Koch fits the circle exactly; other rules are scaled to fit too
     let mr = 1; for (const [x, y] of p) mr = Math.max(mr, Math.hypot(x, y));
     const S = R / mr;
+    if (t >= 1) {
+      // the finished sheet is static: render once to an offscreen canvas, then just rotate it each frame
+      const d = this.q.dpr, pad = R * 0.25, side = Math.ceil((R + pad) * 2 * d);
+      const key = `${JSON.stringify(this.rule)}|${this.depth}|${R.toFixed(1)}|${d}`;
+      if (!this.sheetCache || this.sheetCache.key !== key) {
+        const cv = document.createElement('canvas'); cv.width = cv.height = side;
+        const oc = cv.getContext('2d')!; oc.setTransform(d, 0, 0, d, 0, 0);
+        this.drawSheet(oc, p, R + pad, R + pad, R, S, 0);
+        this.sheetCache = { key, cv };
+      }
+      c.save(); c.translate(cx, cy); c.rotate(rot); c.drawImage(this.sheetCache.cv, -(R + pad), -(R + pad), side / d, side / d); c.restore();
+    } else this.drawSheet(c, p, cx, cy, R, S, rot);
+    this.drawThread(c, p, cx, cy, R, S, rot, now);
+  }
+  private drawSheet(c: CanvasRenderingContext2D, p: Pt[], cx: number, cy: number, R: number, S: number, rot: number) {
     // one sheet of backing paper, lifted: soft shadow + a thin darker rim
     c.save(); this.trace(c, p, cx + 3, cy + 7, S, rot); c.fillStyle = 'rgba(10,16,48,.75)'; c.shadowColor = 'rgba(0,0,15,.7)'; c.shadowBlur = 28; c.fill(); c.restore();
     c.save(); this.trace(c, p, cx, cy, S, rot);
@@ -152,6 +167,8 @@ export class Stage {
     const sp = c.createRadialGradient(cx - R * 0.25, cy - R * 0.3, 0, cx - R * 0.25, cy - R * 0.3, R * 0.6);
     sp.addColorStop(0, 'rgba(255,255,255,.55)'); sp.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = sp; c.fillRect(cx - R * 1.2, cy - R * 1.2, R * 2.4, R * 2.4);
     c.restore();
+  }
+  private drawThread(c: CanvasRenderingContext2D, p: Pt[], cx: number, cy: number, R: number, S: number, rot: number, now: number) {
     c.save(); this.trace(c, p, cx, cy, S, rot); c.lineWidth = 1; c.strokeStyle = 'rgba(255,255,255,.9)'; c.stroke();
     // golden measuring thread, running around the edge
     c.lineWidth = 1.6; c.strokeStyle = '#f2b544'; c.shadowColor = 'rgba(255,190,80,.9)'; c.shadowBlur = 6;
