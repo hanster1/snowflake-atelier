@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Snowflake Atelier: a cut-paper fractal game</title>
+<meta name="description" content="Cut ice-paper snowflakes step by step and discover fractals: self-similarity, iteration, and an endless edge inside a limited area." />
+<meta name="theme-color" content="#0f1736" />
+<link rel="icon" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+</head>
+<body>
+<canvas id="stage" aria-label="Snowflake cutting table"></canvas>
+
+<section id="title" class="screen active">
+  <div class="poster">
+    <div class="orn">❄</div>
+    <h1>Snowflake Atelier</h1>
+    <p class="tag">Frost · Paper · Iteration · Infinity</p>
+    <p class="blurb">Apprentice to Madame Isolde, winter paper-artist. Cut ice-paper one step at a time and discover the endless edge.</p>
+    <div class="row">
+      <button class="btn primary" data-testid="begin" id="begin">Begin</button>
+      <button class="btn" data-testid="open-studio" id="openStudio">Studio</button>
+      <button class="btn" data-testid="open-gallery" id="openGallery">Gallery</button>
+    </div>
+    <p class="banner">Cut · Fold · Illuminate · Repeat</p>
+  </div>
+</section>
+
+<section id="map" class="screen">
+  <header class="bar"><button class="btn ghost" data-back>← Title</button><h2>The Commission Book</h2><span></span></header>
+  <div id="chapters"></div>
+</section>
+
+<section id="gallery" class="screen">
+  <header class="bar"><button class="btn ghost" data-back>← Title</button><h2>The Gallery of Winter</h2><button class="btn ghost" id="galStudio">Studio →</button></header>
+  <p class="hint" id="galEmpty">Finish commissions or hang pieces from the Studio and they appear here.</p>
+  <div id="galGrid"></div>
+</section>
+
+<section id="play" class="screen">
+  <aside id="panel">
+    <header class="bar small"><button class="btn ghost" id="toMap" data-testid="to-map">← Book</button><span id="chap" class="chap"></span><button class="btn ghost icon" id="mute" aria-label="Toggle sound" data-testid="mute">♪</button></header>
+    <h2 id="lvTitle"></h2>
+    <div id="dialogue"></div>
+    <p id="task" class="task"></p>
+    <div id="question" class="card"></div>
+    <div id="controls">
+      <div class="seg" id="kindSeg" role="group" aria-label="Rule"></div>
+      <div class="seg" id="angleSeg" role="group" aria-label="Bump angle"></div>
+      <div class="seg" id="dirSeg" role="group" aria-label="Bump direction"></div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="undo" data-testid="undo">Tape back</button>
+      <button class="btn primary big" id="cut" data-testid="cut">✂ Cut</button>
+      <button class="btn gold" id="present" data-testid="present">Present</button>
+    </div>
+    <p id="feedback" role="status" aria-live="polite"></p>
+    <dl id="stats"></dl>
+    <div class="ledgerWrap"><div class="lh"><span>The golden thread</span><span id="threadNote"></span></div><canvas id="ledger"></canvas></div>
+    <div id="win" class="card"></div>
+  </aside>
+</section>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

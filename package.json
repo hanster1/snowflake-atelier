@@ -1,0 +1,20 @@
+{
+  "name": "snowflake-atelier",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "playwright test",
+    "test:unit": "vitest run tests/unit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.13",
+    "vitest": "^5.1.0"
+  }
+}
