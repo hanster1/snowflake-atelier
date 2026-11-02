@@ -1,13 +1,13 @@
 # Snowflake Atelier ❄
 
-A cut-paper fractal game for kids and adults. You're apprentice to a winter paper-artist, cutting ice-paper step by step to learn self-similarity, iteration and recursion. Along the way you learn the Koch snowflake's endless edge (×4/3 every step) inside a limited area, plus the anti-snowflake, angle and square variants, Sierpinski and Cantor.
+A paper-snowflake puzzle game. Fold the paper (half, quarters, sixths, eighths or twelfths), snip notches, scoops, slots, tips and self-similar Koch cuts into the folded wedge's edges, then unfold it and match Madame Isolde's target snowflake. Along the way you learn mirror lines, rotational symmetry, six-fold snow crystals, self-similarity and the Koch snowflake's endless edge.
 
 **Play:** https://snowflake-atelier-spencer-73ef.vercel.app
 
-- 5 chapters, 20 commissions (all unlocked), a Studio sandbox and a Gallery
-- Exact geometry in code (`src/fractal.ts`) and a Canvas 2D renderer (`src/render.ts`)
-- An adaptive WebAudio score (`src/audio.ts`)
-- Docs: [STORY](STORY.md) · [LEVELS](LEVELS.md) · [AUDIO](AUDIO.md) · [VISUAL](VISUAL.md)
+- 4 chapters, 12 levels (all unlocked), scored by how closely your cut-away paper matches the target (pass at 88–90%), free retries and a hint overlay
+- Exact geometry in code (`src/paper.ts`: wedge, cut polygons, mirror unfolding, match score; `src/fractal.ts`: Koch shapes for the backdrop)
+- A WebAudio score with paper-snip sounds (`src/audio.ts`)
+- Screenshots: `node scripts/shots.mjs <outdir>` against the dev server
 
 ```bash
 npm install
